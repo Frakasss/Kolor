@@ -99,12 +99,14 @@ void loop()
     case GAMEMAKERS:
       ReadPlayerInput_Creator();
       Display_Creator();
+      Display_Buttons();
       break;
 
     case TITLESCREEN:
       Reset();
       ReadPlayerInput_Intro();
       Display_Titlescreen();
+      Display_Buttons();
       break;
 
     case MENU:
@@ -115,6 +117,7 @@ void loop()
     case RUREADY: 
       ReadPlayerInput_Ready();
       Display_Game();
+      Display_Buttons();
       Display_TextReady();
       Gameplay_CheckWin();
       break;
@@ -122,6 +125,7 @@ void loop()
     case PLAY: 
       ReadPlayerInput_Game();
       Display_Game();
+      Display_Buttons();
       Display_TextPlay();
       break;
       
@@ -132,6 +136,7 @@ void loop()
       Gameplay_UpdatePosition();
       ReadPlayerInput_Game2();
       Display_Game();
+      Display_Buttons();
       Display_TextPlay();
       break;
       
@@ -143,7 +148,7 @@ void loop()
       
     case WIN:
       Display_Podium();
-      //ReadPlayerInput_Win();
+      ReadPlayerInput_Win();
       break;
       
     default: 
@@ -158,7 +163,7 @@ void loop()
 void ReadPlayerInput()
 {
   if (gb.buttons.pressed(BUTTON_MENU)){
-    Reset();
+    //Reset();
   }
 }
 
@@ -291,7 +296,10 @@ void ReadPlayerInput_Game2(){
 }
 
 
-
+void ReadPlayerInput_Win(){
+  Reset();
+  SetGameState(MENU);
+}
 
 
 
@@ -447,7 +455,7 @@ void Display_Game()
   Image Paint_2   = Image(PAINT_2_6X6);
   Image Paint_3   = Image(PAINT_3_6X6);
   Image Paint_4   = Image(PAINT_4_6X6);
-  
+  Image Buttons(BUTTONS);
   Image Player    = Image(PLAYERS);
 
   int xCenter=2;
@@ -627,6 +635,7 @@ void Display_Podium(){
   Image MenuBkg(MENUBKG);
   Image PodiumImg(PODIUM);
   Image Player(PLAYERS);
+
   gb.display.setFontSize(1);
   gb.display.setColor(BLACK);
   
@@ -648,7 +657,7 @@ void Display_Podium(){
   gb.display.printf("%d",players[podium.trd].score);
 
   gb.display.setCursorX(105);
-  gb.display.printf("%d",players[podium.fth].score);
+  gb.display.printf("%d",players[podium.fth].score); 
 }
 
 
@@ -665,4 +674,40 @@ void Display_TextPlay(){
   gb.display.setCursorY(120);
   gb.display.setColor(SetPlayerColor(currentPlayer));
   gb.display.printf("Player %d, Paint!", currentPlayer+1);
+}
+
+void Display_Buttons(){
+  Image Buttons(BUTTONS);
+  switch (GetGameState())
+  {
+    case GAMEMAKERS: 
+      gb.display.drawImage(152,120,Buttons,7,0,7,7);
+      break;
+      
+    case TITLESCREEN: 
+      gb.display.drawImage(152,120,Buttons,7,0,7,7);
+      break;    
+      
+    case RUREADY: 
+      gb.display.drawImage(152,120,Buttons,7,0,7,7);
+      break;
+      
+    case PLAY:
+      gb.display.drawImage(1,120,Buttons,0,0,7,7);
+      gb.display.drawImage(152,120,Buttons,14,0,7,7);
+      break;
+      
+    case MOVE_UP: 
+    case MOVE_DOWN:
+    case MOVE_LEFT:
+    case MOVE_RIGHT: 
+      gb.display.drawImage(152,120,Buttons,14,0,7,7);
+      break;
+      
+    case WIN:
+      gb.display.drawImage(152,120,Buttons,7,0,7,7);
+      break;
+  }
+
+  
 }
