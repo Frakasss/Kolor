@@ -1,0 +1,3 @@
+#define DISPLAY_MODE DISPLAY_MODE_INDEX
+
+/*160 x 128*/
