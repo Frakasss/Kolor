@@ -28,7 +28,7 @@ PlayerState players[4];
 Podium podium;
 
 
-GameState currentGameState = MENU;
+GameState currentGameState = GAMEMAKERS;
 void SetGameState(GameState newState){
   currentGameState = newState;
 }
@@ -50,6 +50,7 @@ void setup()
   gb.display.setPalette(PALETTE);
   InitMap(currentMap);
   InitPlayerPosition();
+  SetGameState(GAMEMAKERS);
 }
 
 void InitPlayerPosition()
@@ -243,9 +244,11 @@ void ReadPlayerInput_Menu(){
   }
 
   if(gb.buttons.pressed(BUTTON_A)){
-    InitMap(currentMap);
-    InitPlayerPosition();
-    SetGameState(RUREADY);
+    if(menuItem==3){
+      InitMap(currentMap);
+      InitPlayerPosition();
+      SetGameState(RUREADY);
+    }
   }
 
   if(gb.buttons.pressed(BUTTON_B)){
