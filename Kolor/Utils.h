@@ -24,28 +24,35 @@ bool canPaint(int y, int x){
   return check;
 }
 
+//######################################################## CHECK FUNCTIONS
 bool HasCollision(int nextPosX, int nextPosY)
 {
   bool check = false;
-  if(map_layout[nextPosY][nextPosX]==0){check=true;}
-  if(map_layout[nextPosY][nextPosX]==6){check=true;}
-  if(map_layout[nextPosY][nextPosX]==7){check=true;}
-  if(map_layout[nextPosY][nextPosX]==8){check=true;}
-  if(map_layout[nextPosY][nextPosX]==9){check=true;}
+  if(nextPosX<0){check=true;}
+  if(nextPosY<0){check=true;}
+  if(nextPosX>MAP_WIDTH-1){check=true;}
+  if(nextPosY>MAP_HEIGHT-1){check=true;}
+
+  if(check==false){
+    if(map_layout[nextPosY][nextPosX]==0){check=true;}
+    if(map_layout[nextPosY][nextPosX]==6){check=true;}
+    if(map_layout[nextPosY][nextPosX]==7){check=true;}
+    if(map_layout[nextPosY][nextPosX]==8){check=true;}
+    if(map_layout[nextPosY][nextPosX]==9){check=true;}
+  }
   return check;
 }
 
+int PosValue(int x, int y){
+  bool check = false;
+  if(x<0){return 0;}
+  if(y<0){return 0;}
+  if(x>MAP_WIDTH-1){return 0;}
+  if(y>MAP_HEIGHT-1){return 0;}
 
-Color SetPlayerColor(int player){
-  Color playerColor = WHITE;
-  switch(player){
-    case 0: playerColor=RED; break;
-    case 1: playerColor=BLUE; break;
-    case 2: playerColor=GREEN; break;
-    case 3: playerColor=YELLOW; break;
-    default:playerColor=WHITE; break;
+  if(check==false){
+    return map_layout[y][x];
   }
-  return playerColor;
 }
 
 /***********
@@ -64,6 +71,16 @@ bool CheckWin()
     }
   }
   return true;
+}
+
+int intLength(int value){
+  int myLength = 1;
+  if(value>9){myLength=2;}
+  if(value>99){myLength=3;}
+  if(value>999){myLength=4;}
+  if(value>9999){myLength=5;}
+  if(value>99999){myLength=6;}
+  return myLength;
 }
 
 #endif
